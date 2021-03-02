@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Card.qml</file>
+        <file>RemoveFrutaDialog.qml</file>
+        <file>AddFrutaDialog.qml</file>
+        <file>CarrinhoView.qml</file>
+        <file>FrutasView.qml</file>
+    </qresource>
+</RCC>
