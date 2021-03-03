@@ -18,12 +18,25 @@ ToolBar{
             icon.source: "icons/view-grid-outline.png"
         }
 
-        Label{
-            id:title
-            elide: Label.ElideRight
-            Layout.fillWidth: true
-            text: "User name"
+        ColumnLayout{
+            spacing: 0
+            Label{
+                id:title
+                Layout.fillWidth: true
+                elide: Label.ElideRight
+                text: userModel.username
+                font.bold: true
+            }
+            Label{
+                id:subTitle
+                elide: Label.ElideRight
+                text: userModel.email
+                font.pixelSize: 12
+            }
+
         }
+
+
 
         ToolButton{
             id:lupa

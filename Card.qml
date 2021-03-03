@@ -6,10 +6,11 @@ import QtGraphicalEffects 1.0
 Item {
     id: cardItem
     property int elevation: 1
+    property var cardColor: "#fafafa"
 
     Rectangle {
         anchors.fill: parent
-        color: "white"
+        color: cardColor
         radius: 4
         layer.enabled: cardItem.elevation > 0
         layer.effect: ElevationEffect {

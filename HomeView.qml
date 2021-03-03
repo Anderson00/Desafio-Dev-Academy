@@ -20,64 +20,9 @@ Item {
     ListModel{
         id:mod
         ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
-        }
-        ListElement{
-            name:"eee"
-            nota:"eewee"
+            title:"Receita de bolo wefwefwefwefwef"
+            nota:"Pesquisar no <a href='https://www.google.com.br/'>google</a>"
+            data:"12:05"
         }
     }
 
@@ -91,8 +36,8 @@ Item {
         anchors.leftMargin: 10 - (isGrid)
         anchors.topMargin: 10
         ScrollBar.vertical: ScrollBar {
-                visible: true
-            }
+            visible: true
+        }
 
         cellWidth: ((parent.width / numberOfColumns ) - 10/numberOfColumns)
         cellHeight: 120
@@ -122,12 +67,114 @@ Item {
 
         delegate: Column{
             Card{
+                elevation: 2
                 width: grid.cellWidth - 10
                 height: grid.cellHeight - 10
+                cardColor:"yellow"
 
-                Text {
-                    text: name
+                Label{
+                    id:lbTitle
+                    width: parent.width
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                    clip: true
+                    elide: "ElideRight"
+                    color: "black"
+                    text: title
                 }
+
+                Rectangle{
+                    id:titleSeparator
+                    anchors.top: lbTitle.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 5
+                    anchors.leftMargin: 10
+                    anchors.rightMargin: 10
+                    width: parent.width
+                    height: 1
+                    color: Material.background
+                    opacity: Material.theme == Material.Light? 1 : 0.2
+
+                }
+
+                Label{
+                    width: parent.width
+                    anchors.top: titleSeparator.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                    clip: true
+                    elide: "ElideRight"
+                    color: "black"
+                    text: nota
+                }
+
+                RowLayout{
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 5
+                    width: parent.width
+                    clip:true
+                    Rectangle{
+
+
+                        width: mc.width + 10
+                        height: mc.height + 5
+                        radius:10
+                        color: "#FFFFAA"
+                        Label{
+                            id:mc
+
+                            anchors.centerIn: parent
+                            text: "marcador"
+                            color:"black"
+                            font.pixelSize: 10
+
+                        }
+                    }
+
+                    Rectangle{
+
+
+                        width: mc2.width + 10
+                        height: mc2.height + 5
+                        radius:10
+                        color: "#FFFFAA"
+                        Label{
+                            id:mc2
+
+                            anchors.centerIn: parent
+                            text: "marcador"
+                            color:"black"
+                            font.pixelSize: 10
+
+                        }
+                    }
+
+                    Rectangle{
+
+
+                        width: mc3.width + 10
+                        height: mc3.height + 5
+                        radius:10
+                        color: "#FFFFAA"
+                        Label{
+                            id:mc3
+
+                            anchors.centerIn: parent
+                            text: "marcador"
+                            color:"black"
+                            font.pixelSize: 10
+
+                        }
+                    }
+                }
+
+
             }
         }
     }

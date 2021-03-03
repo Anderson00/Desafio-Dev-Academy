@@ -12,9 +12,13 @@ ApplicationWindow {
     height: 480
     visible: true
 
+    Component.onCompleted: {
+        console.log()
+    }
+
     property var window: this
 
-    Material.theme: theme.checked ? Material.Light : Material.Dark
+    Material.theme: theme.checked ? Material.Dark : Material.Light
 
     header: MyToolbar{
         id:toolbar
@@ -40,7 +44,7 @@ ApplicationWindow {
                     id:theme
                     anchors.fill: parent
                     text: "Dark mode"
-                    checked: false
+                    checked: true
                 }
             }
 
@@ -85,8 +89,13 @@ ApplicationWindow {
         Layout.fillWidth: true
 
 
+
         HomeView{
             id:homeView
+        }
+
+        AdicionarNotaView{
+
         }
 
     }

@@ -13,7 +13,8 @@ SOURCES += \
         frutadatabasemodel.cpp \
         frutalistmodel.cpp \
         main.cpp \
-        model.cpp
+        model.cpp \
+        usermodel.cpp
 
 RESOURCES += qml.qrc \
     sql.qrc
@@ -35,7 +36,8 @@ HEADERS += \
     fruta.h \
     frutadatabasemodel.h \
     frutalistmodel.h \
-    model.h
+    model.h \
+    usermodel.h
 
 DISTFILES += \
     qmldir
