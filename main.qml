@@ -1,129 +1,112 @@
 import QtQuick 2.9
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.2
+
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 import Models 1.0
 
-Window {
+ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Qt Dev.Academy")
-    color: "#fafafa"
 
-    RemoveFrutaDialog {
-        id: removeFrutaDialog
-        onAccepted: {
-            frutas.removeFruta(fruta.index)
-        }
-    }
+    Material.theme: theme.checked ? Material.Light : Material.Dark
 
-    AddFrutaDialog {
-        id: addFrutaDialog
-        onCancelPressed: {
-            addFrutaDialog.clearFields()
-            addFrutaDialog.close()
-        }
-        onOkPressed: {
-            frutas.insertFruta(name, price, calories)
-            addFrutaDialog.clearFields()
-            addFrutaDialog.close()
-        }
-    }
-
-    FrutaDatabaseModel {
-        id: dbFrutas
-    }
-
-    FrutaListModel {
-        id: frutas
-        Component.onCompleted: {
-            frutas.insertFruta("Tangerina", 5.55, 100)
-        }
-    }
-
-    ListModel {
-        id: carrinho
-        function getTotal() {
-            let total = 0;
-            for(let i = 0; i < carrinho.rowCount(); i++) {
-                total += carrinho.get(i).price
+    header: ToolBar{
+        RowLayout{
+            anchors.fill: parent
+            ToolButton{
+                icon.width: 20
+                icon.source: "icons/view-grid-outline.png"
             }
-            return total;
-        }
-    }
 
-    ColumnLayout {
-        anchors.fill: parent
-
-        RowLayout {
-            Layout.fillWidth: true
-            Text {
-                text: `Carrinho do ${myModel.name}`
+            Label{
+                id:title
+                elide: Label.ElideRight
                 Layout.fillWidth: true
-                font.pixelSize: 20
+                text: "User name"
             }
-            TextField {
-                id: nameField
+
+            ToolButton{
+                id:lupa
+                property var toggle: false
+
+                icon.source: "icons/magnify.png"
+                onClicked: {
+                    search.visible = !search.visible
+                }
             }
-            Button {
-                text: "Salvar"
-                enabled: nameField != ""
-                onPressed: {
-                    if(nameField != "") {
-                        myModel.setName(nameField.text, myModel.id)
+
+            TextField{
+                id:search
+                visible: false
+                placeholderText: "Buscar"
+
+                property var anim: anim
+                property var anim2: anim2
+
+                onFocusChanged: {
+                    if(!focus){
+                        search.visible = false
                     }
                 }
-            }
-        }
 
-
-        CarrinhoView {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            model: carrinho
-            onRemovePressed: {
-                carrinho.remove(index)
-                totalText.text = "Total: " + carrinho.getTotal()
-            }
-        }
-
-        Text {
-            id: totalText
-            text: "Total: " + carrinho.getTotal()
-            Layout.fillWidth: true
-            font.pixelSize: 20
-        }
-
-        RowLayout {
-            Text {
-                text: "Produtos"
-                Layout.fillWidth: true
-                font.pixelSize: 20
-            }
-            Button {
-                text: "Novo"
-                onPressed: {
-                    addFrutaDialog.open()
+                onVisibleChanged: {
+                    if(visible){
+                        anim.start()
+                        search.focus = true
+                    }
                 }
-            }
-        }
 
-        FrutasView {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-//            model: frutas
-            model: dbFrutas
-            onAddButtonPressed: {
-                carrinho.append(fruta)
-                totalText.text = "Total: " + carrinho.getTotal()
+
+                NumberAnimation on width{
+                    id:anim
+                    from:0
+                    to:100
+                    duration: 400
+                }
+
             }
-            onRemoveButtonPressed: {
-                removeFrutaDialog.fruta = fruta
-                removeFrutaDialog.open()
+
+            ToolButton{
+                icon.width: 20
+                icon.source: "icons/view-grid-outline.png"
+                onClicked: menu.open()
             }
         }
     }
+
+    Item {
+        anchors.right: parent.right
+        Menu{
+            id:menu
+            Switch{
+                id:theme
+                text: "Dark mode"
+                checked: false
+            }
+            MenuItem{
+                text: "help"
+            }
+
+        }
+    }
+
+    footer: ToolBar{
+        RowLayout{
+            anchors.fill: parent
+
+            ToolButton{
+                icon.source: "icons/magnify.png"
+            }
+        }
+    }
+
+    StackLayout{
+        id: stack
+        anchors.fill: parent
+    }
+
 }

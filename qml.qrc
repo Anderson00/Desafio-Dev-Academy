@@ -8,4 +8,11 @@
         <file>CarrinhoView.qml</file>
         <file>FrutasView.qml</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file>view-grid-outline.png</file>
+        <file>format-list-bulleted-square.png</file>
+        <file>plus.png</file>
+        <file>tag-plus-outline.png</file>
+        <file>magnify.png</file>
+    </qresource>
 </RCC>
