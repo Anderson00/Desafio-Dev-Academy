@@ -7,6 +7,8 @@
         <file>AddFrutaDialog.qml</file>
         <file>CarrinhoView.qml</file>
         <file>FrutasView.qml</file>
+        <file>MyToolbar.qml</file>
+        <file>HomeView.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file>view-grid-outline.png</file>
@@ -14,5 +16,11 @@
         <file>plus.png</file>
         <file>tag-plus-outline.png</file>
         <file>magnify.png</file>
+        <file>dots-vertical.png</file>
     </qresource>
+    <qresource prefix="/components">
+        <file>Test.qml</file>
+        <file>qmldir</file>
+    </qresource>
+    <qresource prefix="/views"/>
 </RCC>

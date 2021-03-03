@@ -12,81 +12,39 @@ ApplicationWindow {
     height: 480
     visible: true
 
+    property var window: this
+
     Material.theme: theme.checked ? Material.Light : Material.Dark
 
-    header: ToolBar{
-        RowLayout{
-            anchors.fill: parent
-            ToolButton{
-                icon.width: 20
-                icon.source: "icons/view-grid-outline.png"
-            }
-
-            Label{
-                id:title
-                elide: Label.ElideRight
-                Layout.fillWidth: true
-                text: "User name"
-            }
-
-            ToolButton{
-                id:lupa
-                property var toggle: false
-
-                icon.source: "icons/magnify.png"
-                onClicked: {
-                    search.visible = !search.visible
-                }
-            }
-
-            TextField{
-                id:search
-                visible: false
-                placeholderText: "Buscar"
-
-                property var anim: anim
-                property var anim2: anim2
-
-                onFocusChanged: {
-                    if(!focus){
-                        search.visible = false
-                    }
-                }
-
-                onVisibleChanged: {
-                    if(visible){
-                        anim.start()
-                        search.focus = true
-                    }
-                }
-
-
-                NumberAnimation on width{
-                    id:anim
-                    from:0
-                    to:100
-                    duration: 400
-                }
-
-            }
-
-            ToolButton{
-                icon.width: 20
-                icon.source: "icons/view-grid-outline.png"
-                onClicked: menu.open()
-            }
-        }
+    header: MyToolbar{
+        id:toolbar
+        menu: menu
+        listButtonAction: (iconBt)=>{
+                              if(homeView.isGrid){
+                                toolbar.iconList = 'icons/view-grid-outline.png'
+                                homeView.isGrid = false
+                              }else{
+                                  toolbar.iconList = 'icons/format-list-bulleted-square.png'
+                                  homeView.isGrid = true
+                              }
+                          }
     }
 
     Item {
         anchors.right: parent.right
         Menu{
             id:menu
-            Switch{
-                id:theme
-                text: "Dark mode"
-                checked: false
+            MenuItem{
+
+                Switch{
+                    id:theme
+                    anchors.fill: parent
+                    text: "Dark mode"
+                    checked: false
+                }
             }
+
+
             MenuItem{
                 text: "help"
             }
@@ -102,11 +60,35 @@ ApplicationWindow {
                 icon.source: "icons/magnify.png"
             }
         }
+
+        ToolButton{
+            id:fab
+            width: 50
+            height: 50
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 15
+            icon.source: "icons/plus.png"
+            Rectangle{
+                radius:parent.width
+                anchors.fill: parent
+                color: Material.background
+                border.color: Material.primary
+                z:-1
+            }
+        }
     }
 
     StackLayout{
         id: stack
         anchors.fill: parent
+        Layout.fillWidth: true
+
+
+        HomeView{
+            id:homeView
+        }
+
     }
 
 }

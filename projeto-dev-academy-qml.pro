@@ -36,3 +36,6 @@ HEADERS += \
     frutadatabasemodel.h \
     frutalistmodel.h \
     model.h
+
+DISTFILES += \
+    qmldir
