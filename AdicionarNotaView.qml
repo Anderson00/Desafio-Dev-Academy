@@ -11,7 +11,7 @@ Item {
     anchors.fill: parent
     Rectangle{
         anchors.fill: parent
-        color:'transparent'
+        color: Material.background
     }
 
     ColumnLayout{

@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.3
 
 ToolBar{
     property var menu
+    property var stack
     property var iconList: 'icons/format-list-bulleted-square.png'
     property var listButtonAction: (iconBt)=>{}
 
@@ -15,7 +16,10 @@ ToolBar{
         anchors.fill: parent
         ToolButton{
             icon.width: 20
-            icon.source: "icons/view-grid-outline.png"
+            icon.source: "icons/arrow-left.png"
+            onPressed: {
+                stack.pop();
+            }
         }
 
         ColumnLayout{

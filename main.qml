@@ -23,10 +23,11 @@ ApplicationWindow {
     header: MyToolbar{
         id:toolbar
         menu: menu
+        stack: stack
         listButtonAction: (iconBt)=>{
                               if(homeView.isGrid){
-                                toolbar.iconList = 'icons/view-grid-outline.png'
-                                homeView.isGrid = false
+                                  toolbar.iconList = 'icons/view-grid-outline.png'
+                                  homeView.isGrid = false
                               }else{
                                   toolbar.iconList = 'icons/format-list-bulleted-square.png'
                                   homeView.isGrid = true
@@ -80,23 +81,54 @@ ApplicationWindow {
                 border.color: Material.primary
                 z:-1
             }
+
+            onPressed: {
+                stack.push('AdicionarNotaView.qml')
+            }
         }
     }
 
-    StackLayout{
+    StackView{
         id: stack
         anchors.fill: parent
         Layout.fillWidth: true
 
+        initialItem: "HomeView.qml"
 
-
-        HomeView{
-            id:homeView
+        pushEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        pushExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+        popEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        popExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
         }
 
-        AdicionarNotaView{
 
-        }
 
     }
 

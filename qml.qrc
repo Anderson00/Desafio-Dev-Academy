@@ -18,6 +18,7 @@
         <file>tag-plus-outline.png</file>
         <file>magnify.png</file>
         <file>dots-vertical.png</file>
+        <file>arrow-left.png</file>
     </qresource>
     <qresource prefix="/components">
         <file>Test.qml</file>
