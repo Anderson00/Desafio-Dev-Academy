@@ -25,12 +25,15 @@ ApplicationWindow {
         menu: menu
         stack: stack
         listButtonAction: (iconBt)=>{
-                              if(homeView.isGrid){
-                                  toolbar.iconList = 'icons/view-grid-outline.png'
-                                  homeView.isGrid = false
-                              }else{
-                                  toolbar.iconList = 'icons/format-list-bulleted-square.png'
-                                  homeView.isGrid = true
+
+                              if(stack.currentItem.isGrid !== undefined){
+                                  if(stack.currentItem.isGrid){
+                                      toolbar.iconList = 'icons/view-grid-outline.png'
+                                      stack.currentItem.isGrid = false
+                                  }else{
+                                      toolbar.iconList = 'icons/format-list-bulleted-square.png'
+                                      stack.currentItem.isGrid = true
+                                  }
                               }
                           }
     }
@@ -95,12 +98,14 @@ ApplicationWindow {
 
         initialItem: "HomeView.qml"
 
+
         pushEnter: Transition {
             PropertyAnimation {
                 property: "opacity"
                 from: 0
                 to:1
                 duration: 200
+
             }
         }
         pushExit: Transition {
@@ -128,8 +133,16 @@ ApplicationWindow {
             }
         }
 
-
-
+        onCurrentItemChanged: {
+            if(stack.currentItem.isGrid !== undefined){
+                toolbar.showActions();
+                toolbar.showBackButton = false;
+            }
+            else{
+                toolbar.hideActions();
+                toolbar.showBackButton = true;
+            }
+        }
     }
 
 }

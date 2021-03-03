@@ -10,18 +10,37 @@ ToolBar{
     property var stack
     property var iconList: 'icons/format-list-bulleted-square.png'
     property var listButtonAction: (iconBt)=>{}
+    property var hideActions: () => {
+                                 lupa.visible = false;
+                                 search.visible = false;
+                                 iconBt.visible = false;
+                             }
+    property var showActions: () => {
+                                 lupa.visible = true;
+                                 if(search.text.trim().length > 0)
+                                    search.visible = true;
+                                 else
+                                    search.visible = false;
+                                 iconBt.visible = true;
+                             }
+    property var showBackButton: false
 
 
     RowLayout{
         anchors.fill: parent
+        Rectangle{
+            visible: !showBackButton
+            width: 30
+        }
+
         ToolButton{
+            visible: showBackButton
             icon.width: 20
             icon.source: "icons/arrow-left.png"
             onPressed: {
                 stack.pop();
             }
         }
-
         ColumnLayout{
             spacing: 0
             Label{

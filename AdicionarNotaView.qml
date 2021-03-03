@@ -33,7 +33,7 @@ Item {
             Layout.fillWidth: true
             placeholderText: "Titulo"
 
-            KeyNavigation.tab: notaArea
+            KeyNavigation.tab: notaField
         }
         Flickable {
             id:flickable
