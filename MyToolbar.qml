@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 ToolBar{
+    id:root
     property var notaTable
     property var idOfItem
     property var menu
@@ -14,21 +15,23 @@ ToolBar{
     property var iconList: 'icons/format-list-bulleted-square.png'
     property var listButtonAction: (iconBt)=>{}
     property var hideActions: () => {
-                                 lupa.visible = false;
-                                 search.visible = false;
-                                 iconBt.visible = false;
-                                 dateTime.visible = true;
-                             }
+                                  lupa.visible = false;
+                                  search.visible = false;
+                                  iconBt.visible = false;
+                                  dateTime.visible = true;
+                              }
     property var showActions: () => {
-                                 lupa.visible = true;
-                                 if(search.text.trim().length > 0)
-                                    search.visible = true;
-                                 else
-                                    search.visible = false;
-                                 iconBt.visible = true;
-                                 dateTime.visible = false;
-                             }
+                                  lupa.visible = true;
+                                  if(search.text.trim().length > 0)
+                                  search.visible = true;
+                                  else
+                                  search.visible = false;
+                                  iconBt.visible = true;
+                                  dateTime.visible = false;
+                              }
     property var showBackButton: false
+
+    signal textEdited(string text);
 
     Component.onCompleted: {
 
@@ -110,6 +113,9 @@ ToolBar{
                     search.visible = false
                 }
             }
+            onTextChanged: {
+                root.textEdited(text);
+            }
 
             onVisibleChanged: {
                 if(visible){
@@ -120,8 +126,6 @@ ToolBar{
                     focusBlock = true;
                     search.focus = false;
                     search.visible = false
-
-                    //focusBlock = false;
                 }
             }
 

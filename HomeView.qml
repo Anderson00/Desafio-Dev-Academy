@@ -17,15 +17,14 @@ Item {
     property var notaTable
     property var toolbar
 
+    property var filter
+
     signal changeIsGrid(bool toList);
 
     anchors.fill: parent
 
     GridView{
         id:grid
-
-
-
         anchors.fill: parent
         anchors.leftMargin: 10 - (isGrid)
         anchors.topMargin: 10
@@ -42,7 +41,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         onWidthChanged: {
-            //console.log(isGrid+' '+width+' '+numberOfColumns)
             if(isGrid){
                 if(width <= 500){
                     numberOfColumns = 2;
@@ -60,7 +58,11 @@ Item {
         }
 
 
-        delegate: Column{            
+        delegate: Column{
+             opacity: (titulo.trim().toLowerCase().includes(filter.trim().toLowerCase())
+                      || desc.trim().toLowerCase().includes(filter.trim().toLowerCase())
+                      || cor.trim().toLowerCase().includes(filter.trim().toLowerCase())
+                      || date.trim().toLowerCase().includes(filter.trim().toLowerCase())) ? 1 : 0.2
             Card{
                 elevation: 2
                 width: grid.cellWidth - 10

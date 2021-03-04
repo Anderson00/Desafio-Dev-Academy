@@ -36,6 +36,14 @@ ApplicationWindow {
                                   }
                               }
                           }
+
+
+        onTextEdited: {
+            console.log(text);
+            if(stack.currentItem.isGrid !== undefined){
+                stack.currentItem.filter = text;
+            }
+        }
     }
 
     Item {

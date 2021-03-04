@@ -158,11 +158,10 @@ Item {
             }
 
             GridView{
-                cellWidth: 25
+                cellWidth: 35
                 cellHeight: 35
                 Layout.fillWidth: true
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
+                height: 40
                 model: mod
 
                 delegate: Item{
