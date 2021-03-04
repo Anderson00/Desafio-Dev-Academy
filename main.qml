@@ -14,6 +14,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         console.log()
+        toolbar.notaTable = notaDb;
     }
 
     property var window: this
@@ -87,8 +88,8 @@ ApplicationWindow {
             }
 
             onPressed: {
+                toolbar.date = ''
                 stack.push('AdicionarNotaView.qml')
-
             }
         }
     }

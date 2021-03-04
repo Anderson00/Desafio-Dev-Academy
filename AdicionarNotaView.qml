@@ -28,11 +28,11 @@ Item {
     Component.onCompleted: {
         console.log(idOfItem);
 
-//        if(idOfItem !== undefined){
-//            tituloField.text = titulo;
-//            notaField.text = desc;
-//            rootBackground.color = cor;
-//        }
+        //        if(idOfItem !== undefined){
+        //            tituloField.text = titulo;
+        //            notaField.text = desc;
+        //            rootBackground.color = cor;
+        //        }
 
         if(idOfItem){
             tituloField.text = titulo;
@@ -47,13 +47,20 @@ Item {
         var data = current.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
         var hora = current.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
 
-        if(idOfItem === undefined){
+        //Caso os campos não estejam preenchido, nada é salvo
+        if(tituloField.text.trim().length > 0 || notaField.text.trim().length > 0){
+            if(idOfItem === undefined){
 
-            notaTable.newRow(tituloField.text, notaField.text, rootBackground.color,
-                             data+' '+ hora);
-        }else{
+                notaTable.newRow(tituloField.text, notaField.text, rootBackground.color,
+                                 data+' '+ hora);
+            }else{
+                //So atualiza a nota se houver alguma alteração, caso contrário, nada é feito
+                // === quebra a logica, favor não mudar
+                if(!(tituloField.text == titulo && notaField.text == desc && rootBackground.color == cor)){
+                    notaTable.updateRow(idOfItem, tituloField.text, notaField.text, rootBackground.color, data+' '+hora);
+                }
 
-            notaTable.updateRow(idOfItem, tituloField.text, notaField.text, rootBackground.color, data+' '+hora);
+            }
         }
 
         notaTable.select();

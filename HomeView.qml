@@ -75,6 +75,7 @@ Item {
                     anchors.fill: parent
                     onPressed: {
                         toolbar.date = date;
+                        toolbar.idOfItem = id;
                         stack.push('AdicionarNotaView.qml', {"idOfItem": id, "titulo": titulo, "desc":desc, "cor":cor, "date":date});
                     }
                 }

@@ -6,6 +6,8 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
 ToolBar{
+    property var notaTable
+    property var idOfItem
     property var menu
     property var date
     property var stack
@@ -28,6 +30,9 @@ ToolBar{
                              }
     property var showBackButton: false
 
+    Component.onCompleted: {
+        console.log(">>>>>>>>>>> "+date);
+    }
 
     RowLayout{
         anchors.fill: parent
@@ -66,6 +71,18 @@ ToolBar{
             id:dateTime
             visible: false
             text: date
+        }
+
+        ToolButton{
+            id:excluirItem
+            visible: date !== undefined && date.length > 0 && dateTime.visible
+            icon.source: "icons/delete.png"
+            onClicked: {
+                if(idOfItem !== undefined){
+                    notaTable.deleteRow(idOfItem);
+                    stack.pop();
+                }
+            }
         }
 
         ToolButton{

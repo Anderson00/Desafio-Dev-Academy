@@ -72,6 +72,15 @@ void NotaDatabaseModel::updateRow(QString id, QString titulo, QString desc, QStr
     select();
 }
 
+void NotaDatabaseModel::deleteRow(QString id)
+{
+    QSqlQuery deleteQuery(QSqlTableModel::database());
+    deleteQuery.prepare("delete from Nota where id = :id");
+    deleteQuery.bindValue(":id", id);
+    deleteQuery.exec();
+    select();
+}
+
 QHash<int, QByteArray> NotaDatabaseModel::roleNames() const
 {
     return m_roleColumns;
