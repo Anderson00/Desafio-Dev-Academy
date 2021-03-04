@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.3
 
 ToolBar{
     property var menu
+    property var date
     property var stack
     property var iconList: 'icons/format-list-bulleted-square.png'
     property var listButtonAction: (iconBt)=>{}
@@ -14,6 +15,7 @@ ToolBar{
                                  lupa.visible = false;
                                  search.visible = false;
                                  iconBt.visible = false;
+                                 dateTime.visible = true;
                              }
     property var showActions: () => {
                                  lupa.visible = true;
@@ -22,6 +24,7 @@ ToolBar{
                                  else
                                     search.visible = false;
                                  iconBt.visible = true;
+                                 dateTime.visible = false;
                              }
     property var showBackButton: false
 
@@ -59,7 +62,11 @@ ToolBar{
 
         }
 
-
+        Label{
+            id:dateTime
+            visible: false
+            text: date
+        }
 
         ToolButton{
             id:lupa

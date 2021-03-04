@@ -14,6 +14,8 @@ SOURCES += \
         frutalistmodel.cpp \
         main.cpp \
         model.cpp \
+        nota.cpp \
+        notadatabasemodel.cpp \
         usermodel.cpp
 
 RESOURCES += qml.qrc \
@@ -37,6 +39,8 @@ HEADERS += \
     frutadatabasemodel.h \
     frutalistmodel.h \
     model.h \
+    nota.h \
+    notadatabasemodel.h \
     usermodel.h
 
 DISTFILES += \

@@ -20,6 +20,8 @@ public:
     void registerRoleColumn(int role, QByteArray columnName);
 //    QVariant data(int row, int role) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+
     Q_INVOKABLE QHash<int, QByteArray> roleNames() const;
 
 private:

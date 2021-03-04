@@ -5,27 +5,21 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
+import Models 1.0
+
 Item {
+    property var stack
     property var numberOfColumns: 2
     property var numberOfColumnsAux: 0
     property var isGrid: true
     property var itemWidth: 110
     property var gridElem: grid
+    property var notaTable
+    property var toolbar
 
     signal changeIsGrid(bool toList);
 
     anchors.fill: parent
-
-
-    ListModel{
-        id:mod
-        ListElement{
-            title:"Receita de bolo wefwefwefwefwef"
-            nota:"Pesquisar no <a href='https://www.google.com.br/'>google</a>"
-            data:"12:05"
-        }
-    }
-
 
     GridView{
         id:grid
@@ -42,7 +36,7 @@ Item {
         cellWidth: ((parent.width / numberOfColumns ) - 10/numberOfColumns)
         cellHeight: 120
 
-        model:mod
+        model:notaTable
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -65,12 +59,25 @@ Item {
 
         }
 
-        delegate: Column{
+
+        delegate: Column{            
             Card{
                 elevation: 2
                 width: grid.cellWidth - 10
                 height: grid.cellHeight - 10
-                cardColor:"yellow"
+                cardColor:cor
+                clip: true
+                Component.onCompleted: {
+                    console.log(date);
+                }
+
+                MouseArea{
+                    anchors.fill: parent
+                    onPressed: {
+                        toolbar.date = date;
+                        stack.push('AdicionarNotaView.qml', {"idOfItem": id, "titulo": titulo, "desc":desc, "cor":cor, "date":date});
+                    }
+                }
 
                 Label{
                     id:lbTitle
@@ -82,7 +89,7 @@ Item {
                     clip: true
                     elide: "ElideRight"
                     color: "black"
-                    text: title
+                    text: titulo
                 }
 
                 Rectangle{
@@ -107,12 +114,16 @@ Item {
                     anchors.right: parent.right
                     anchors.margins: 10
                     clip: true
+                    wrapMode: "NoWrap"
+
                     elide: "ElideRight"
                     color: "black"
-                    text: nota
+
+                    text: desc
                 }
 
                 RowLayout{
+                    visible: false
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right

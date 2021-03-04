@@ -25,7 +25,6 @@ ApplicationWindow {
         menu: menu
         stack: stack
         listButtonAction: (iconBt)=>{
-
                               if(stack.currentItem.isGrid !== undefined){
                                   if(stack.currentItem.isGrid){
                                       toolbar.iconList = 'icons/view-grid-outline.png'
@@ -61,10 +60,12 @@ ApplicationWindow {
     }
 
     footer: ToolBar{
+        id:bottomBar
         RowLayout{
             anchors.fill: parent
 
             ToolButton{
+                visible: false
                 icon.source: "icons/magnify.png"
             }
         }
@@ -87,7 +88,18 @@ ApplicationWindow {
 
             onPressed: {
                 stack.push('AdicionarNotaView.qml')
+
             }
+        }
+    }
+
+    NotaDatabaseModel{
+        id:notaDb
+        onDataChanged: {
+            console.log("wefwefwefwefwefwefwef");
+        }
+        onRowsInserted: {
+             console.log("wefwefwefwefwefwefwef");
         }
     }
 
@@ -135,12 +147,21 @@ ApplicationWindow {
 
         onCurrentItemChanged: {
             if(stack.currentItem.isGrid !== undefined){
+                stack.currentItem.toolbar = toolbar;
                 toolbar.showActions();
                 toolbar.showBackButton = false;
+                fab.visible = true;
+                bottomBar.visible = true;
+
+                stack.currentItem.notaTable = notaDb;
+                stack.currentItem.stack = stack;
             }
             else{
                 toolbar.hideActions();
+                fab.visible = false;
+                bottomBar.visible = false;
                 toolbar.showBackButton = true;
+                stack.currentItem.notaTable = notaDb;
             }
         }
     }
