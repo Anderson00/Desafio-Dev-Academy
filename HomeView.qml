@@ -45,11 +45,11 @@ Item {
                 if(width <= 500){
                     numberOfColumns = 2;
                 }else if(width <= 650){
-                    numberOfColumns = 4;
-                }else if(width <= 850){
+                    numberOfColumns = 3;
+                }else if(width <= 1050){
                     numberOfColumns = 5;
                 }else{
-                    numberOfColumns = 5
+                    numberOfColumns = 7
                 }
             }else{
                 numberOfColumns = 1;
@@ -59,7 +59,7 @@ Item {
 
 
         delegate: Column{
-             opacity: (titulo.trim().toLowerCase().includes(filter.trim().toLowerCase())
+            opacity: (titulo.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || desc.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || cor.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || date.trim().toLowerCase().includes(filter.trim().toLowerCase())) ? 1 : 0.2
@@ -67,14 +67,13 @@ Item {
                 elevation: 2
                 width: grid.cellWidth - 10
                 height: grid.cellHeight - 10
-                cardColor:cor
+                cardColor: (cor.trim() == Material.background) ? Material.foreground : cor
+                //borderColor: (cor.trim() == Material.background)? Material.accent : 'transparent'
                 clip: true
-                Component.onCompleted: {
-                    console.log(date);
-                }
 
                 MouseArea{
                     anchors.fill: parent
+
                     onPressed: {
                         toolbar.date = date;
                         toolbar.idOfItem = id;
@@ -106,7 +105,8 @@ Item {
                     width: parent.width
                     height: 1
                     color: Material.background
-                    opacity: Material.theme == Material.Light? 1 : 0.2
+
+                    opacity: Material.theme == Material.Light? 0.4 : 0.2
 
                 }
 
@@ -118,7 +118,7 @@ Item {
                     anchors.margins: 10
                     clip: true
                     wrapMode: "NoWrap"
-
+                    font.pixelSize: 13
                     elide: "ElideRight"
                     color: "black"
 

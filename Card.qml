@@ -7,10 +7,12 @@ Item {
     id: cardItem
     property int elevation: 1
     property var cardColor: "#fafafa"
+    property var borderColor: 'transparent'
 
     Rectangle {
         anchors.fill: parent
         color: cardColor
+        border.color: borderColor
         radius: 4
         layer.enabled: cardItem.elevation > 0
         layer.effect: ElevationEffect {

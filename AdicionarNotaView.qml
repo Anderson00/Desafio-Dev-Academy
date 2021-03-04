@@ -87,6 +87,8 @@ Item {
 
             anchors.margins: 10
             Layout.fillWidth: true
+            font.pixelSize: 18
+            font.bold: true
             placeholderText: "Titulo"
 
             KeyNavigation.tab: notaField
@@ -109,7 +111,6 @@ Item {
 
         }
         RowLayout{
-            width: parent.width
             anchors.bottom: parent.bottom
             height: 0
 
