@@ -55,7 +55,32 @@ ApplicationWindow {
 
             MenuItem{
                 text: "help"
+                onPressed: {
+                    dialog.open();
+                }
             }
+
+        }
+    }
+
+    Dialog{
+        id:dialog
+        modal: true
+        anchors.centerIn: parent
+        width: parent.width * 0.6
+        title:'Help'
+        standardButtons: Dialog.Ok
+
+
+        Label{
+            wrapMode: "Wrap"
+            anchors.fill: parent
+            text: 'O objetivo deste desafio é criar um clone do Google Keep.\nEste app suporta, inserção, atualização, busca e exclusão de notas. As notas podem ser visualizadas na forma de lista, ou grade, apertando o botão com ícone de grade ou lista na toolbar.\nTambém é possível alternar entre Modo Dark e Light.\nO Grid e a lista se adaptam a tela, o Grid aumenta o número de colunas com base no tamanho do monitor (responsivo). A data de alteração e ou inserção é registrada somente se dados forem alterados, evitando que notas totalmente vazias sejam armazenadas no Banco de dados. O banco de dados utiliza relacionamento simples, que relaciona a tabela User, com a tabela Notas.'
+        }
+
+
+
+        onAccepted: {
 
         }
     }
@@ -100,7 +125,7 @@ ApplicationWindow {
             console.log("wefwefwefwefwefwefwef");
         }
         onRowsInserted: {
-             console.log("wefwefwefwefwefwefwef");
+            console.log("wefwefwefwefwefwefwef");
         }
     }
 

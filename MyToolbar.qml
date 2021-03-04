@@ -31,7 +31,7 @@ ToolBar{
     property var showBackButton: false
 
     Component.onCompleted: {
-        console.log(">>>>>>>>>>> "+date);
+
     }
 
     RowLayout{
