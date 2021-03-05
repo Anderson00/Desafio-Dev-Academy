@@ -11,6 +11,7 @@ Item {
     id: root
 
 
+    property var stack
     property var notaTable
     property var idOfItem //se for undefined, inserção, se não, update
     property var titulo
@@ -176,6 +177,7 @@ Item {
                         border.color: Material.foreground
 
                         MouseArea{
+                            cursorShape: Qt.PointingHandCursor
                             anchors.fill: parent
                             hoverEnabled: true
 
@@ -206,9 +208,16 @@ Item {
                 border.color: Material.foreground
 
                 ToolButton {
+
                     anchors.fill: parent
                     icon.source: "icons/plus.png"
                     icon.color: '#fff'
+
+                }
+
+                MouseArea{
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                     onPressed: {
                         dialog.open();
                     }

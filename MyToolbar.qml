@@ -19,6 +19,7 @@ ToolBar{
                                   search.visible = false;
                                   iconBt.visible = false;
                                   dateTime.visible = true;
+                                  markers.visible = true;
                               }
     property var showActions: () => {
                                   lupa.visible = true;
@@ -28,6 +29,7 @@ ToolBar{
                                   search.visible = false;
                                   iconBt.visible = true;
                                   dateTime.visible = false;
+                                  markers.visible = false
                               }
     property var showBackButton: false
 
@@ -85,6 +87,15 @@ ToolBar{
                     notaTable.deleteRow(idOfItem);
                     stack.pop();
                 }
+            }
+        }
+
+        ToolButton{
+            id:markers
+            icon.source: "icons/tag.png"
+            icon.width: 20
+            onClicked: {
+
             }
         }
 

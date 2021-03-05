@@ -19,9 +19,15 @@ Item {
 
     property var filter
 
+
     signal changeIsGrid(bool toList);
 
     anchors.fill: parent
+
+
+    MarcadorDatabaseModel{
+        id:marcadorDb
+    }
 
     GridView{
         id:grid
@@ -59,12 +65,15 @@ Item {
 
 
         delegate: Column{
+            property var notaID: id
+
             opacity: (titulo.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || desc.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || cor.trim().toLowerCase().includes(filter.trim().toLowerCase())
                       || date.trim().toLowerCase().includes(filter.trim().toLowerCase())) ? 1 : 0.2
             Card{
-                elevation: 2
+                id:card
+                elevation: 10
                 width: grid.cellWidth - 10
                 height: grid.cellHeight - 10
                 cardColor: (cor.trim() == Material.background) ? Material.foreground : cor
@@ -125,68 +134,45 @@ Item {
                     text: desc
                 }
 
-                RowLayout{
-                    visible: false
+                Item {
                     anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 5
                     width: parent.width
-                    clip:true
-                    Rectangle{
+                    height: 20
+                    anchors.bottomMargin: 2
 
 
-                        width: mc.width + 10
-                        height: mc.height + 5
-                        radius:10
-                        color: "#FFFFAA"
-                        Label{
-                            id:mc
-
-                            anchors.centerIn: parent
-                            text: "marcador"
-                            color:"black"
-                            font.pixelSize: 10
-
-                        }
-                    }
-
-                    Rectangle{
+                    GridView{
+                        visible: true
+                        id:gridMarcadores
+                        anchors.fill: parent
+                        anchors.leftMargin: 2
+                        anchors.rightMargin: 2
+                        cellWidth: 34
+                        cellHeight: 20
 
 
-                        width: mc2.width + 10
-                        height: mc2.height + 5
-                        radius:10
-                        color: "#FFFFAA"
-                        Label{
-                            id:mc2
+                        model:marcadorDb
 
-                            anchors.centerIn: parent
-                            text: "marcador"
-                            color:"black"
-                            font.pixelSize: 10
+                        delegate: Column{
+                            Rectangle{
+                                visible: nota_id == notaID
+                                width: mc.width + 10
+                                height: mc.height + 5
+                                radius:10
+                                color: "#FFFFAA"
+                                Label{
+                                    id:mc
+                                    anchors.centerIn: parent
+                                    text: nome
+                                    color:"black"
+                                    font.pixelSize: 10
 
-                        }
-                    }
-
-                    Rectangle{
-
-
-                        width: mc3.width + 10
-                        height: mc3.height + 5
-                        radius:10
-                        color: "#FFFFAA"
-                        Label{
-                            id:mc3
-
-                            anchors.centerIn: parent
-                            text: "marcador"
-                            color:"black"
-                            font.pixelSize: 10
-
+                                }
+                            }
                         }
                     }
                 }
+
 
 
             }

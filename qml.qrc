@@ -16,6 +16,7 @@
         <file>dots-vertical.png</file>
         <file>arrow-left.png</file>
         <file>delete.png</file>
+        <file>tag.png</file>
     </qresource>
     <qresource prefix="/components">
         <file>Test.qml</file>

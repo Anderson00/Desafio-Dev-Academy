@@ -122,7 +122,7 @@ ApplicationWindow {
 
             onPressed: {
                 toolbar.date = ''
-                stack.push('AdicionarNotaView.qml')
+                stack.push('AdicionarNotaView.qml',{"stack":stack})
             }
         }
     }
@@ -139,11 +139,19 @@ ApplicationWindow {
 
     StackView{
         id: stack
+        focus:true
         anchors.fill: parent
         Layout.fillWidth: true
 
+
         initialItem: "HomeView.qml"
 
+
+        Keys.onBackPressed: {
+            event.accepted = stack.depth > 1
+            pop();
+
+        }
 
         pushEnter: Transition {
             PropertyAnimation {
