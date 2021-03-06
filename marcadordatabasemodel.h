@@ -23,7 +23,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     Q_INVOKABLE void newRow(QString nome, QString notaId);
-    Q_INVOKABLE void updateRow(QString id, QString nome, QString notaId);
+    Q_INVOKABLE void updateRow(QString id, QString nome);
     Q_INVOKABLE QVariantList getByNotaId(QString id);
     Q_INVOKABLE void deleteRow(QString id);
 

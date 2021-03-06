@@ -14,7 +14,7 @@ Database::Database()
 bool Database::openDatabase()
 {
     QDir dataDir = QDir::currentPath();
-    qDebug() << dataDir.absolutePath();
+    //qDebug() << dataDir.absolutePath();
     QString dbPath = dataDir.absolutePath() + "/" + DB_CONNECTION_NAME + ".db3";
 
     if(!isConnected()) {
@@ -63,7 +63,7 @@ bool Database::runSqlScript(QSqlDatabase db, QString path)
                     continue;
                 }
                 if(db.exec(query.trimmed()).lastError().isValid()) {
-                   qDebug() << "tu se lascou";
+                   //qDebug() << "tu se lascou";
                    qDebug() << query << "falhou";
                    allQueriesOk = false;
                 } else {

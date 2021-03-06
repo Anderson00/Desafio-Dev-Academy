@@ -10,6 +10,7 @@ Item {
     property var borderColor: 'transparent'
 
     Rectangle {
+        id:rect
         anchors.fill: parent
         color: cardColor
         border.color: borderColor

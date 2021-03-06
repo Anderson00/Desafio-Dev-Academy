@@ -8,6 +8,8 @@ import QtQuick.Layouts 1.3
 import Models 1.0
 
 Item {
+    property var nameWindow: 'Home'
+
     property var stack
     property var numberOfColumns: 2
     property var numberOfColumnsAux: 0
@@ -70,10 +72,18 @@ Item {
         delegate: Column{
             property var notaID: id
 
-            opacity: (titulo.trim().toLowerCase().includes(filter.trim().toLowerCase())
-                      || desc.trim().toLowerCase().includes(filter.trim().toLowerCase())
-                      || cor.trim().toLowerCase().includes(filter.trim().toLowerCase())
-                      || date.trim().toLowerCase().includes(filter.trim().toLowerCase())) ? 1 : 0.2
+            function search(text){
+                if(text === undefined || text.trim().length === 0)
+                    return true;
+                text = text.trim().toLowerCase();
+                return (titulo.trim().toLowerCase().includes(text)
+                        || desc.trim().toLowerCase().includes(text)
+                        || cor.trim().toLowerCase().includes(text)
+                        || date.trim().toLowerCase().includes(text)
+                       )
+            }
+
+            opacity: search(filter) ? 1 : 0.2
             Card{
                 id:card
                 elevation: 10

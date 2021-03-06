@@ -10,7 +10,6 @@ SOURCES += \
         database.cpp \
         main.cpp \
         marcadordatabasemodel.cpp \
-        nota.cpp \
         notadatabasemodel.cpp \
         usermodel.cpp
 
@@ -31,7 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     database.h \
     marcadordatabasemodel.h \
-    nota.h \
     notadatabasemodel.h \
     usermodel.h
 

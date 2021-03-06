@@ -13,8 +13,8 @@ ApplicationWindow {
     visible: true
 
     Component.onCompleted: {
-        console.log()
         toolbar.notaTable = notaDb;
+        stack.push("IdentificationView.qml", {'stack':stack,'toolbar':toolbar});
     }
 
     property var window: this
@@ -24,6 +24,7 @@ ApplicationWindow {
 
     header: MyToolbar{
         id:toolbar
+        visible: false
         menu: menu
         stack: stack
         listButtonAction: (iconBt)=>{
@@ -158,6 +159,7 @@ ApplicationWindow {
                     }
 
                     ListElement{
+                        idd: ''
                         boxChecked: true
                         nome: 'Front'
                     }
@@ -167,6 +169,10 @@ ApplicationWindow {
                 delegate: RowLayout{
                     property var currentIndex: listModel.cout - 1
                     width: parent.width
+                    Text {
+                        visible: false
+                        text: idd || ''
+                    }
                     CheckBox{
                         id:box
                         enabled: false
@@ -239,9 +245,10 @@ ApplicationWindow {
 
     footer: ToolBar{
         id:bottomBar
+        visible: false
         RowLayout{
             anchors.fill: parent
-
+            visible: false
             ToolButton{
                 visible: false
                 icon.source: "icons/magnify.png"
@@ -250,6 +257,7 @@ ApplicationWindow {
 
         ToolButton{
             id:fab
+            visible: false
             width: 50
             height: 50
             anchors.right: parent.right
@@ -279,18 +287,17 @@ ApplicationWindow {
         id:marcadorDb
     }
 
+
     StackView{
         id: stack
+        visible: true
         focus:true
         anchors.fill: parent
         Layout.fillWidth: true
 
 
-        initialItem: "HomeView.qml"
-
-
         Keys.onBackPressed: {
-            event.accepted = stack.depth > 1
+            event.accepted = stack.depth > 0
             pop();
 
         }
@@ -330,12 +337,13 @@ ApplicationWindow {
         }
 
         onCurrentItemChanged: {
-
-            if(stack.currentItem.isGrid !== undefined){
+            console.log(stack.currentItem.nameWindow)
+            if(stack.currentItem.nameWindow == 'Home'){
                 stack.currentItem.toolbar = toolbar;
                 toolbar.showActions();
                 toolbar.showBackButton = false;
                 fab.visible = true;
+                toolbar.visible = true;
                 bottomBar.visible = true;
 
                 stack.currentItem.notaTable = notaDb;
@@ -343,13 +351,8 @@ ApplicationWindow {
                 stack.currentItem.stack = stack;
                 stack.currentItem.markersListView = dlist
                 stack.currentItem.markersModel = listModel
-                //listModel.clear();
-                //listModel.append({'nome':''})
             }
-            else{
-                //listModel.clear();
-                //listModel.append({})
-
+            else if(stack.currentItem.nameWindow == 'AdicionarNota'){
                 toolbar.hideActions();
                 fab.visible = false;
                 bottomBar.visible = false;

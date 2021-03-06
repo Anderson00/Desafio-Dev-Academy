@@ -51,18 +51,17 @@ void MarcadorDatabaseModel::newRow(QString nome, QString notaId)
     select();
 }
 
-void MarcadorDatabaseModel::updateRow(QString id, QString nome, QString notaId)
+void MarcadorDatabaseModel::updateRow(QString id, QString nome)
 {
     QSqlQuery updateQuery(QSqlTableModel::database());
     updateQuery.prepare(
-                "update Marcador set nome = :nome, nota_id = :nota_id "
+                "update Marcador set nome = :nome"
                 "where id = :id"
         );
     updateQuery.bindValue(":id", id);
     updateQuery.bindValue(":nome", nome);
-    updateQuery.bindValue(":nota_id", notaId);
     updateQuery.exec();
-    select();
+    //select();
 }
 
 void MarcadorDatabaseModel::deleteRow(QString id)
@@ -83,8 +82,7 @@ QVariantList MarcadorDatabaseModel::getByNotaId(QString id)
     selectQuery.bindValue(":id", id);
     selectQuery.exec();
     while(selectQuery.next()){
-
-        list.push_back(selectQuery.value(1));
+        list.push_back(selectQuery.value(0).toString()+' '+selectQuery.value(1).toString());
     }
     return list;
 }

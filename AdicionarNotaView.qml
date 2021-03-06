@@ -8,6 +8,7 @@ import QtQuick.Dialogs 1.0
 import Models 1.0
 
 Item {
+    property var nameWindow: 'AdicionarNota'
     id: root
 
 
@@ -36,13 +37,12 @@ Item {
             rootBackground.color = cor;
 
             //Load marcadores
-            console.log(idOfItem);
             var listOfMarkers = marcadorTable.getByNotaId(idOfItem);
-            console.log('>>'+listOfMarkers.length)
             if(listOfMarkers.length > 0){
                 markersModel.clear();
                 for(var index in listOfMarkers){
-                    markersModel.append({'boxChecked': true, 'nome':listOfMarkers[index]});
+                    let marker = listOfMarkers[index].split(' ');
+                    markersModel.append({'idd':marker[0],'boxChecked': true, 'nome':marker[1]});
                 }
                 markersModel.append({'nome':''})
             }
@@ -58,10 +58,6 @@ Item {
         var data = current.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
         var hora = current.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
 
-        console.log(markersListView.count);
-
-        //console.log(marcadorTable.)
-
         //Caso os campos não estejam preenchido, nada é salvo
         if(tituloField.text.trim().length > 0 || notaField.text.trim().length > 0){
             if(idOfItem === undefined){
@@ -70,13 +66,10 @@ Item {
                                  data+' '+ hora);
 
                 dlist.currentIndex = 0;
-                console.log('>>>> ' + markersListView.count)
                 for(var i = 0; i < markersListView.count; i++){
                     let row = dlist.currentItem
-                    let checkBox = row.children[0];
-                    let textField = row.children[1];
-
-                    console.log('>>>>>>>>>>>>>> '+textField.text+ ' '+checkBox.checked);
+                    let checkBox = row.children[1];
+                    let textField = row.children[2];
 
                     if(checkBox.checked){
                         marcadorTable.newRow(textField.text, notaTable.getNextId());
@@ -85,11 +78,42 @@ Item {
                     dlist.currentIndex = i + 1;
                 }
 
+//                for(var i = 0; i < markersModel.count; i++){
+//                    if(markersModel.get(i).boxChecked){
+//                        marcadorTable.newRow(, notaTable.getNextId());
+//                    }
+//                }
+
             }else{
                 //So atualiza a nota se houver alguma alteração, caso contrário, nada é feito
                 // === quebra a logica
                 if(!(tituloField.text == titulo && notaField.text == desc && rootBackground.color == cor)){
                     notaTable.updateRow(idOfItem, tituloField.text, notaField.text, rootBackground.color, data+' '+hora);
+                }
+
+//                for(let i = 0; i < markersModel.count; i++){
+//                    console.log('>>>>>>>>>>>>>>> '+markersModel.get(i).idd);
+//                    if(markersModel.get(i).idd)
+//                }
+
+                dlist.currentIndex = 0;
+                for(var i = 0; i < markersListView.count; i++){
+                    let row = dlist.currentItem
+                    let idd = row.children[0];
+                    let checkBox = row.children[1];
+                    let textField = row.children[2];
+
+
+
+                    if(checkBox.checked){
+                        if(idd.text.trim().length > 0){
+                            marcadorTable.updateRow(idd.text, textField.text);
+                        }else{
+                            marcadorTable.newRow(textField.text, idOfItem);
+                        }
+                    }
+
+                    dlist.currentIndex = i + 1;
                 }
 
             }
@@ -111,8 +135,6 @@ Item {
     }
 
     ColumnLayout{
-        width: parent.width
-        height: parent.height
         anchors.fill: parent
         anchors.margins: 10
         spacing: 10
@@ -131,7 +153,7 @@ Item {
         Flickable {
             id:flickable
             Layout.fillHeight: true
-            Layout.fillWidth:true
+            Layout.fillWidth: true
             flickableDirection: Flickable.VerticalFlick
 
             TextArea.flickable: TextArea {
@@ -146,8 +168,10 @@ Item {
 
         }
         RowLayout{
-            anchors.bottom: parent.bottom
-            height: 0
+            //anchors.bottom: parent.bottom
+            height: 40
+
+            Layout.fillWidth: true
 
             ListModel{
                 id:mod

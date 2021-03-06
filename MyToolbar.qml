@@ -7,6 +7,9 @@ import QtQuick.Layouts 1.3
 
 ToolBar{
     id:root
+    property var user
+    property var email
+
     property var notaTable
     property var idOfItem
     property var menu
@@ -43,10 +46,6 @@ ToolBar{
     signal markerButtonAction();
     signal deleteItemAction(int idOfItem);
 
-    Component.onCompleted: {
-
-    }
-
     RowLayout{
         anchors.fill: parent
         Rectangle{
@@ -69,13 +68,15 @@ ToolBar{
                 id:title
                 Layout.fillWidth: true
                 elide: Label.ElideRight
-                text: userModel.username
+                text: userModel.nome
+                //text:user
                 font.bold: true
             }
             Label{
                 id:subTitle
                 elide: Label.ElideRight
                 text: userModel.email
+                //text:email
                 font.pixelSize: 12
             }
 
