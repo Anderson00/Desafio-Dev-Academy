@@ -17,6 +17,7 @@
         <file>arrow-left.png</file>
         <file>delete.png</file>
         <file>tag.png</file>
+        <file>magnify-close.png</file>
     </qresource>
     <qresource prefix="/components">
         <file>Test.qml</file>

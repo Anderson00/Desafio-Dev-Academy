@@ -20,16 +20,22 @@ ToolBar{
                                   iconBt.visible = false;
                                   dateTime.visible = true;
                                   markers.visible = true;
+                                  if(Qt.platform.os == 'android'){
+                                    userInfo.visible = false
+                                  }
                               }
     property var showActions: () => {
                                   lupa.visible = true;
                                   if(search.text.trim().length > 0)
-                                  search.visible = true;
+                                    search.visible = true;
                                   else
-                                  search.visible = false;
+                                    search.visible = false;
                                   iconBt.visible = true;
                                   dateTime.visible = false;
                                   markers.visible = false
+                                  if(Qt.platform.os == 'android'){
+                                    userInfo.visible = true
+                                  }
                               }
     property var showBackButton: false
 
@@ -55,6 +61,7 @@ ToolBar{
             }
         }
         ColumnLayout{
+            id:userInfo
             spacing: 0
             Label{
                 id:title
@@ -76,6 +83,7 @@ ToolBar{
             id:dateTime
             visible: false
             text: date
+            Layout.fillWidth: true
         }
 
         ToolButton{
@@ -99,61 +107,59 @@ ToolBar{
             }
         }
 
-        ToolButton{
-            id:lupa
-            property var toggle: false
-
-            icon.source: "icons/magnify.png"
-            onClicked: {
-                search.visible = !search.visible
-            }
-        }
-
         TextField{
             id:search
-            visible: false
+            Layout.fillWidth: true
             placeholderText: "Buscar"
 
-            property var focusBlock: false
-            property var anim: anim
-
             onFocusChanged: {
-                if(search.text.trim().length > 0)
-                    return
-                if(!focus && search.visible){
-                    search.visible = false
-                }
-            }
-            onTextChanged: {
-                root.textEdited(text);
+
             }
 
             onVisibleChanged: {
                 if(visible){
-                    anim.start()
-                    focusBlock = true;
-                    search.focus = true
+                    lupa.visible = false
+                    lupaClose.visible = true
                 }else{
-                    focusBlock = true;
-                    search.focus = false;
-                    search.visible = false
+                    lupaClose.visible = false;
+                    lupa.visible = true;
                 }
             }
 
-
-            NumberAnimation on width{
-                id:anim
-                from:0
-                to:100
-                duration: 400
-
-                onStopped: {
-                    search.focusBlock = false;
-                }
+            onTextChanged: {
+                root.textEdited(text);
             }
-
         }
 
+        ToolButton{
+            id:lupa
+
+            icon.source: "icons/magnify.png"
+            onClicked: {
+                if(Qt.platform.os == 'android'){
+                    userInfo.visible = !userInfo.visible;
+                }
+
+                search.visible = !search.visible
+
+            }
+
+
+        }
+        ToolButton{
+            id:lupaClose
+            visible: false
+
+            icon.source: "icons/magnify-close.png"
+            onClicked: {
+                if(Qt.platform.os == 'android'){
+                    userInfo.visible = !userInfo.visible;
+                }
+
+                search.visible = !search.visible
+                search.text = ''
+            }
+        }
 
         ToolButton{
             id:iconBt

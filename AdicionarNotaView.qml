@@ -138,10 +138,6 @@ Item {
                     colorItem:'white'
                 }
                 ListElement{
-                    textColor:"black"
-                    colorItem:'#1ac4bc'
-                }
-                ListElement{
                     textColor:"white"
                     colorItem:'#c912c0'
                 }
@@ -163,7 +159,7 @@ Item {
                 cellWidth: 35
                 cellHeight: 35
                 Layout.fillWidth: true
-                height: 40
+                height: 35
                 model: mod
 
                 delegate: Item{
@@ -189,10 +185,18 @@ Item {
                             }
 
                             onEntered: {
-                                rect.y = rect.y - 10
+                                if(Qt.platform.os == 'android'){
+
+                                }else{
+                                    rect.y = rect.y - 10
+                                }
                             }
                             onExited: {
-                                rect.y = rect.y + 10
+                                if(Qt.platform.os == 'android'){
+
+                                }else{
+                                    rect.y = rect.y + 10
+                                }
                             }
                         }
                     }
