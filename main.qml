@@ -343,8 +343,8 @@ ApplicationWindow {
                 stack.currentItem.stack = stack;
                 stack.currentItem.markersListView = dlist
                 stack.currentItem.markersModel = listModel
-                listModel.clear();
-                listModel.append({'nome':''})
+                //listModel.clear();
+                //listModel.append({'nome':''})
             }
             else{
                 //listModel.clear();

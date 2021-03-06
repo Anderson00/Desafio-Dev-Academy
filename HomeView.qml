@@ -27,6 +27,11 @@ Item {
 
     anchors.fill: parent
 
+    Component.onCompleted: {
+        markersModel.clear();
+        markersModel.append({'nome':''});
+    }
+
     GridView{
         id:grid
         anchors.fill: parent
@@ -84,6 +89,9 @@ Item {
                     onPressed: {
                         toolbar.date = date;
                         toolbar.idOfItem = id;
+                        markersModel.clear();
+                        markersModel.append({'nome':''});
+
                         stack.push('AdicionarNotaView.qml', {"idOfItem": id, "marcadorTable" : marcadorTable,"markersListView":markersListView, "markersModel":markersModel, "titulo": titulo, "desc":desc, "cor":cor, "date":date});
                     }
                 }
@@ -134,24 +142,20 @@ Item {
 
                 Item {
                     anchors.bottom: parent.bottom
+                    anchors.left: parent.left
                     width: parent.width
                     height: 20
                     anchors.bottomMargin: 2
+                    anchors.leftMargin: 4
 
 
-                    GridView{
-                        visible: true
-                        id:gridMarcadores
-                        anchors.fill: parent
-                        anchors.leftMargin: 2
-                        anchors.rightMargin: 2
-                        cellHeight: 20
+                    RowLayout{
+                        spacing: 2
+                        Repeater{
+                            model: marcadorTable
 
-
-                        model:marcadorTable
-
-                        delegate: Column{
-                            Rectangle{
+                            delegate:
+                                Rectangle{
                                 visible: nota_id == notaID
                                 width: mc.width + 10
                                 height: mc.height + 5
@@ -169,9 +173,6 @@ Item {
                         }
                     }
                 }
-
-
-
             }
         }
     }

@@ -46,8 +46,9 @@ Item {
                 }
                 markersModel.append({'nome':''})
             }
-
-
+        }else{
+            markersModel.clear();
+            markersModel.append({'nome':''});
         }
     }
 
@@ -58,8 +59,7 @@ Item {
         var hora = current.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
 
         console.log(markersListView.count);
-        markersModel.clear();
-        markersModel.append({'nome':''})
+
         //console.log(marcadorTable.)
 
         //Caso os campos não estejam preenchido, nada é salvo
@@ -70,14 +70,19 @@ Item {
                                  data+' '+ hora);
 
                 dlist.currentIndex = 0;
-                for(var i = 0; i < markersListView.count; i++, dlist.currentIndex = i){
+                console.log('>>>> ' + markersListView.count)
+                for(var i = 0; i < markersListView.count; i++){
                     let row = dlist.currentItem
                     let checkBox = row.children[0];
                     let textField = row.children[1];
 
+                    console.log('>>>>>>>>>>>>>> '+textField.text+ ' '+checkBox.checked);
+
                     if(checkBox.checked){
                         marcadorTable.newRow(textField.text, notaTable.getNextId());
                     }
+
+                    dlist.currentIndex = i + 1;
                 }
 
             }else{
@@ -89,6 +94,9 @@ Item {
 
             }
         }
+
+        markersModel.clear();
+        markersModel.append({'nome':''})
 
         notaTable.select();
     }
