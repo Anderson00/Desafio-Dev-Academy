@@ -20,9 +20,7 @@ ToolBar{
                                   iconBt.visible = false;
                                   dateTime.visible = true;
                                   markers.visible = true;
-                                  if(Qt.platform.os == 'android'){
-                                    userInfo.visible = false
-                                  }
+                                  userInfo.visible = false
                               }
     property var showActions: () => {
                                   lupa.visible = true;
@@ -33,13 +31,17 @@ ToolBar{
                                   iconBt.visible = true;
                                   dateTime.visible = false;
                                   markers.visible = false
-                                  if(Qt.platform.os == 'android'){
-                                    userInfo.visible = true
-                                  }
+                                  userInfo.visible = true
                               }
+    property var setBadgeMarkerValue: (value) =>{
+                                          badgeMarkerText.text = value;
+                                      }
+
     property var showBackButton: false
 
     signal textEdited(string text);
+    signal markerButtonAction();
+    signal deleteItemAction(int idOfItem);
 
     Component.onCompleted: {
 
@@ -91,10 +93,7 @@ ToolBar{
             visible: date !== undefined && date.length > 0 && dateTime.visible
             icon.source: "icons/delete.png"
             onClicked: {
-                if(idOfItem !== undefined){
-                    notaTable.deleteRow(idOfItem);
-                    stack.pop();
-                }
+                deleteItemAction(idOfItem);
             }
         }
 
@@ -103,7 +102,24 @@ ToolBar{
             icon.source: "icons/tag.png"
             icon.width: 20
             onClicked: {
+                root.markerButtonAction();
+            }
 
+            Rectangle{
+                id:badgeMarker
+                width: 16
+                height: 16
+                radius: 16
+                color: Material.accent
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.margins: 6
+                Text{
+                    id:badgeMarkerText
+                    anchors.centerIn: parent
+                    font.pixelSize: 10
+                    text: '5'
+                }
             }
         }
 
@@ -170,7 +186,9 @@ ToolBar{
         ToolButton{
             icon.width: 20
             icon.source: "icons/dots-vertical.png"
-            onClicked: menu.open()
+            onClicked: {
+                menu.open();
+            }
         }
     }
 }

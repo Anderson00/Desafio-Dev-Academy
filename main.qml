@@ -18,6 +18,7 @@ ApplicationWindow {
     }
 
     property var window: this
+    property var idToRemove
 
     Material.theme: theme.checked ? Material.Dark : Material.Light
 
@@ -39,11 +40,25 @@ ApplicationWindow {
 
 
         onTextEdited: {
-            console.log(text);
+            addMarker('s');
             if(stack.currentItem.isGrid !== undefined){
                 stack.currentItem.filter = text;
             }
         }
+
+        onMarkerButtonAction: {
+            markersDialog.open()
+        }
+
+        onDeleteItemAction: {
+            excluirDialog.open()
+            idToRemove = idOfItem;
+        }
+    }
+
+    function addMarker(value){
+        listModel.append({'nome':value});
+        console.log(listModel.count)
     }
 
     Item {
@@ -72,10 +87,141 @@ ApplicationWindow {
     }
 
     Dialog{
+        id:excluirDialog
+        modal:true
+        anchors.centerIn: parent
+        width: parent.width * 0.6
+        height: parent.height * 0.6
+        title: 'Excluir?'
+
+        standardButtons: Dialog.No | Dialog.Yes
+
+        Label{
+            anchors.centerIn: parent
+            text: 'Tem certeza que deseja excluir a nota?'
+            wrapMode: "WordWrap"
+        }
+
+        onRejected: {
+            //close
+        }
+
+        onAccepted: {
+            if(idToRemove !== undefined){
+                notaDb.deleteRow(idToRemove);
+                stack.pop();
+            }
+        }
+    }
+
+    Dialog{
+        id:markersDialog
+        modal:true
+        anchors.centerIn: parent
+        width: parent.width * 0.6
+        height: parent.height * 0.8
+        title: 'Adicionar marcador'
+
+        standardButtons: Dialog.Ok
+
+        ColumnLayout{
+            anchors.fill: parent
+
+            ListView{
+                id:dlist
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                ScrollBar.vertical: ScrollBar {
+                    visible: true
+                }
+
+                add: Transition {
+                    NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 500 }
+                    NumberAnimation { property: "scale"; easing.type: Easing.OutBounce; from: 0; to: 1.0; duration: 550 }
+                }
+
+                remove: Transition {
+                    NumberAnimation { property: "x"; to: 50; duration: 200 }
+                    NumberAnimation { property: "opacity"; from: 1.0; to: 0; duration: 200 }
+                }
+
+                model: ListModel{
+                    id:listModel
+
+                    onRowsInserted: {
+                        toolbar.setBadgeMarkerValue(listModel.count - 1);
+                    }
+
+                    onRowsRemoved: {
+                        toolbar.setBadgeMarkerValue(listModel.count - 1);
+                    }
+
+                    ListElement{
+                        boxChecked: true
+                        nome: 'Front'
+                    }
+                }
+
+
+                delegate: RowLayout{
+                    property var currentIndex: listModel.cout - 1
+                    width: parent.width
+                    CheckBox{
+                        id:box
+                        enabled: false
+                        checked: boxChecked
+                    }
+                    TextField{
+                        id:marcadorField
+                        focus: true
+                        Layout.fillWidth: true
+                        placeholderText: 'Marcador'
+                        text: nome
+
+                        function addNewLine(){
+                            if(marcadorField.text.trim().length > 0){
+                                box.checked = true
+                                box.enabled = true
+                                marcadorField.focus = false;
+                                listModel.append({'nome':''});
+                                marcadorDelete.enabled = true
+                                dlist.currentIndex = dlist.count - 1
+                                dlist.currentItem.children[1].focus = true
+                            }
+                        }
+
+                        Keys.onTabPressed: {
+                            addNewLine();
+                        }
+
+                        onAccepted: {
+                            addNewLine();
+
+                        }
+                    }
+
+                    ToolButton{
+                        id:marcadorDelete
+                        enabled: nome.trim().length > 0
+                        icon.source: 'icons/delete.png'
+                        onPressed: {
+                            listModel.remove(currentIndex)
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    Dialog{
         id:dialog
         modal: true
         anchors.centerIn: parent
         width: parent.width * 0.6
+        height: parent.height
         title:'Help'
         standardButtons: Dialog.Ok
 
@@ -85,8 +231,6 @@ ApplicationWindow {
             anchors.fill: parent
             text: 'O objetivo deste desafio é criar um clone do Google Keep.\nEste app suporta, inserção, atualização, busca e exclusão de notas. As notas podem ser visualizadas na forma de lista, ou grade, apertando o botão com ícone de grade ou lista na toolbar.\nTambém é possível alternar entre Modo Dark e Light.\nO Grid e a lista se adaptam a tela, o Grid aumenta o número de colunas com base no tamanho do monitor (responsivo). A data de alteração e ou inserção é registrada somente se dados forem alterados, evitando que notas totalmente vazias sejam armazenadas no Banco de dados. O banco de dados utiliza relacionamento simples, que relaciona a tabela User, com a tabela Notas.'
         }
-
-
 
         onAccepted: {
 
@@ -122,19 +266,17 @@ ApplicationWindow {
 
             onPressed: {
                 toolbar.date = ''
-                stack.push('AdicionarNotaView.qml',{"stack":stack})
+                stack.push('AdicionarNotaView.qml',{"stack":stack, "markersModel":listModel,"markersListView": dlist})
             }
         }
     }
 
     NotaDatabaseModel{
         id:notaDb
-        onDataChanged: {
-            console.log("wefwefwefwefwefwefwef");
-        }
-        onRowsInserted: {
-            console.log("wefwefwefwefwefwefwef");
-        }
+    }
+
+    MarcadorDatabaseModel{
+        id:marcadorDb
     }
 
     StackView{
@@ -188,6 +330,7 @@ ApplicationWindow {
         }
 
         onCurrentItemChanged: {
+
             if(stack.currentItem.isGrid !== undefined){
                 stack.currentItem.toolbar = toolbar;
                 toolbar.showActions();
@@ -196,14 +339,25 @@ ApplicationWindow {
                 bottomBar.visible = true;
 
                 stack.currentItem.notaTable = notaDb;
+                stack.currentItem.marcadorTable = marcadorDb;
                 stack.currentItem.stack = stack;
+                stack.currentItem.markersListView = dlist
+                stack.currentItem.markersModel = listModel
+                listModel.clear();
+                listModel.append({'nome':''})
             }
             else{
+                //listModel.clear();
+                //listModel.append({})
+
                 toolbar.hideActions();
                 fab.visible = false;
                 bottomBar.visible = false;
                 toolbar.showBackButton = true;
                 stack.currentItem.notaTable = notaDb;
+                stack.currentItem.marcadorTable = marcadorDb;
+                stack.currentItem.markersListView = dlist
+                stack.currentItem.markersModel = listModel
             }
         }
     }

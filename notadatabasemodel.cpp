@@ -72,6 +72,18 @@ void NotaDatabaseModel::updateRow(QString id, QString titulo, QString desc, QStr
     select();
 }
 
+QVariant NotaDatabaseModel::getNextId()
+{
+    QSqlQuery selectQuery(QSqlTableModel::database());
+    selectQuery.prepare(
+                "SELECT max(id) FROM Nota"
+    );
+
+    selectQuery.exec();
+    selectQuery.next();
+    return selectQuery.value(0);
+}
+
 void NotaDatabaseModel::deleteRow(QString id)
 {
     QSqlQuery deleteQuery(QSqlTableModel::database());

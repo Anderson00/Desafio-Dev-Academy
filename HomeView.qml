@@ -15,7 +15,10 @@ Item {
     property var itemWidth: 110
     property var gridElem: grid
     property var notaTable
+    property var marcadorTable
     property var toolbar
+    property var markersModel
+    property var markersListView
 
     property var filter
 
@@ -23,11 +26,6 @@ Item {
     signal changeIsGrid(bool toList);
 
     anchors.fill: parent
-
-
-    MarcadorDatabaseModel{
-        id:marcadorDb
-    }
 
     GridView{
         id:grid
@@ -86,7 +84,7 @@ Item {
                     onPressed: {
                         toolbar.date = date;
                         toolbar.idOfItem = id;
-                        stack.push('AdicionarNotaView.qml', {"idOfItem": id, "titulo": titulo, "desc":desc, "cor":cor, "date":date});
+                        stack.push('AdicionarNotaView.qml', {"idOfItem": id, "marcadorTable" : marcadorTable,"markersListView":markersListView, "markersModel":markersModel, "titulo": titulo, "desc":desc, "cor":cor, "date":date});
                     }
                 }
 
@@ -147,11 +145,10 @@ Item {
                         anchors.fill: parent
                         anchors.leftMargin: 2
                         anchors.rightMargin: 2
-                        cellWidth: 34
                         cellHeight: 20
 
 
-                        model:marcadorDb
+                        model:marcadorTable
 
                         delegate: Column{
                             Rectangle{

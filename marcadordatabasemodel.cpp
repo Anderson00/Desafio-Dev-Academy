@@ -74,6 +74,21 @@ void MarcadorDatabaseModel::deleteRow(QString id)
     select();
 }
 
+QVariantList MarcadorDatabaseModel::getByNotaId(QString id)
+{
+    QVariantList list;
+
+    QSqlQuery selectQuery(QSqlTableModel::database());
+    selectQuery.prepare("select * from Marcador where nota_id = :id");
+    selectQuery.bindValue(":id", id);
+    selectQuery.exec();
+    while(selectQuery.next()){
+
+        list.push_back(selectQuery.value(1));
+    }
+    return list;
+}
+
 QHash<int, QByteArray> MarcadorDatabaseModel::roleNames() const
 {
     return m_roleColumns;

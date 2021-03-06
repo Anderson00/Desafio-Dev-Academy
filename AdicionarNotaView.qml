@@ -13,7 +13,10 @@ Item {
 
     property var stack
     property var notaTable
+    property var marcadorTable
     property var idOfItem //se for undefined, inserção, se não, update
+    property var markersListView
+    property var markersModel
     property var titulo
     property var desc
     property var cor
@@ -27,18 +30,24 @@ Item {
     }
 
     Component.onCompleted: {
-        console.log(idOfItem);
-
-        //        if(idOfItem !== undefined){
-        //            tituloField.text = titulo;
-        //            notaField.text = desc;
-        //            rootBackground.color = cor;
-        //        }
-
         if(idOfItem){
             tituloField.text = titulo;
             notaField.text = desc;
             rootBackground.color = cor;
+
+            //Load marcadores
+            console.log(idOfItem);
+            var listOfMarkers = marcadorTable.getByNotaId(idOfItem);
+            console.log('>>'+listOfMarkers.length)
+            if(listOfMarkers.length > 0){
+                markersModel.clear();
+                for(var index in listOfMarkers){
+                    markersModel.append({'boxChecked': true, 'nome':listOfMarkers[index]});
+                }
+                markersModel.append({'nome':''})
+            }
+
+
         }
     }
 
@@ -48,15 +57,32 @@ Item {
         var data = current.toLocaleDateString(Qt.locale(), Locale.ShortFormat)
         var hora = current.toLocaleTimeString(Qt.locale(), Locale.ShortFormat);
 
+        console.log(markersListView.count);
+        markersModel.clear();
+        markersModel.append({'nome':''})
+        //console.log(marcadorTable.)
+
         //Caso os campos não estejam preenchido, nada é salvo
         if(tituloField.text.trim().length > 0 || notaField.text.trim().length > 0){
             if(idOfItem === undefined){
 
                 notaTable.newRow(tituloField.text, notaField.text, rootBackground.color,
                                  data+' '+ hora);
+
+                dlist.currentIndex = 0;
+                for(var i = 0; i < markersListView.count; i++, dlist.currentIndex = i){
+                    let row = dlist.currentItem
+                    let checkBox = row.children[0];
+                    let textField = row.children[1];
+
+                    if(checkBox.checked){
+                        marcadorTable.newRow(textField.text, notaTable.getNextId());
+                    }
+                }
+
             }else{
                 //So atualiza a nota se houver alguma alteração, caso contrário, nada é feito
-                // === quebra a logica, favor não mudar
+                // === quebra a logica
                 if(!(tituloField.text == titulo && notaField.text == desc && rootBackground.color == cor)){
                     notaTable.updateRow(idOfItem, tituloField.text, notaField.text, rootBackground.color, data+' '+hora);
                 }
@@ -70,7 +96,7 @@ Item {
     ColorDialog{
         id:dialog
 
-        onAccepted: {
+        onAccepted: {            
             anyColorItem.color = dialog.color;
             rootBackground.color = anyColorItem.color
         }

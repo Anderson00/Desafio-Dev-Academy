@@ -24,6 +24,7 @@ public:
 
     Q_INVOKABLE void newRow(QString nome, QString notaId);
     Q_INVOKABLE void updateRow(QString id, QString nome, QString notaId);
+    Q_INVOKABLE QVariantList getByNotaId(QString id);
     Q_INVOKABLE void deleteRow(QString id);
 
     Q_INVOKABLE QHash<int, QByteArray> roleNames() const;
