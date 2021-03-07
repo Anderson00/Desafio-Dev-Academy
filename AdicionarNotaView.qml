@@ -42,13 +42,13 @@ Item {
                 markersModel.clear();
                 for(var index in listOfMarkers){
                     let marker = listOfMarkers[index].split(' ');
-                    markersModel.append({'idd':marker[0],'boxChecked': true, 'nome':marker[1]});
+                    markersModel.append({'id2':index, 'idd':marker[0],'boxChecked': true, 'nome':marker[1]});
                 }
-                markersModel.append({'nome':''})
+                markersModel.append({'id2':'', 'nome':''})
             }
         }else{
             markersModel.clear();
-            markersModel.append({'nome':''});
+            markersModel.append({'id2':'','nome':''});
         }
     }
 
@@ -71,18 +71,12 @@ Item {
                     let checkBox = row.children[1];
                     let textField = row.children[2];
 
-                    if(checkBox.checked){
+                    if(checkBox.checked && textField.text.trim().length > 0){
                         marcadorTable.newRow(textField.text, notaTable.getNextId());
                     }
 
                     dlist.currentIndex = i + 1;
                 }
-
-//                for(var i = 0; i < markersModel.count; i++){
-//                    if(markersModel.get(i).boxChecked){
-//                        marcadorTable.newRow(, notaTable.getNextId());
-//                    }
-//                }
 
             }else{
                 //So atualiza a nota se houver alguma alteração, caso contrário, nada é feito
@@ -91,13 +85,8 @@ Item {
                     notaTable.updateRow(idOfItem, tituloField.text, notaField.text, rootBackground.color, data+' '+hora);
                 }
 
-//                for(let i = 0; i < markersModel.count; i++){
-//                    console.log('>>>>>>>>>>>>>>> '+markersModel.get(i).idd);
-//                    if(markersModel.get(i).idd)
-//                }
-
                 dlist.currentIndex = 0;
-                for(var i = 0; i < markersListView.count; i++){
+                for(let i = 0; i < markersListView.count; i++){
                     let row = dlist.currentItem
                     let idd = row.children[0];
                     let checkBox = row.children[1];
@@ -128,7 +117,7 @@ Item {
     ColorDialog{
         id:dialog
 
-        onAccepted: {            
+        onAccepted: {
             anyColorItem.color = dialog.color;
             rootBackground.color = anyColorItem.color
         }

@@ -5,6 +5,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 
+import Qt.labs.settings 1.0
 import Models 1.0
 
 ApplicationWindow {
@@ -41,7 +42,6 @@ ApplicationWindow {
 
 
         onTextEdited: {
-            addMarker('s');
             if(stack.currentItem.isGrid !== undefined){
                 stack.currentItem.filter = text;
             }
@@ -57,11 +57,6 @@ ApplicationWindow {
         }
     }
 
-    function addMarker(value){
-        listModel.append({'nome':value});
-        console.log(listModel.count)
-    }
-
     Item {
         anchors.right: parent.right
         Menu{
@@ -73,6 +68,10 @@ ApplicationWindow {
                     anchors.fill: parent
                     text: "Dark mode"
                     checked: true
+
+                    onCheckedChanged: {
+
+                    }
                 }
             }
 
@@ -159,6 +158,8 @@ ApplicationWindow {
                     }
 
                     ListElement{
+                        id2:''
+                        id3:''
                         idd: ''
                         boxChecked: true
                         nome: 'Front'
@@ -167,7 +168,10 @@ ApplicationWindow {
 
 
                 delegate: RowLayout{
-                    property var currentIndex: listModel.cout - 1
+                    readonly property int currentIndex: dlist.count - 2;
+                    property var kkkk
+
+
                     width: parent.width
                     Text {
                         visible: false
@@ -190,7 +194,9 @@ ApplicationWindow {
                                 box.checked = true
                                 box.enabled = true
                                 marcadorField.focus = false;
-                                listModel.append({'nome':''});
+                                console.log('>>>>'+dlist.count)
+                                kkkk = dlist.count - 1;
+                                listModel.append({'id3':'33', 'idd':'','boxChecked':false,'nome':''});
                                 marcadorDelete.enabled = true
                                 dlist.currentIndex = dlist.count - 1
                                 dlist.currentItem.children[1].focus = true
@@ -212,7 +218,18 @@ ApplicationWindow {
                         enabled: nome.trim().length > 0
                         icon.source: 'icons/delete.png'
                         onPressed: {
-                            listModel.remove(currentIndex)
+                            console.log('>>>>>>>>> '+id3+' '+idd+' '+nome +' '+ kkkk);
+                            if(idd){
+                                marcadorDb.deleteRow(idd);
+                            }
+                            if(id2 !== undefined || id2.trim().length > 0){
+                                listModel.remove(id2);
+                            }else{
+                                listModel.remove(kkkk);
+                            }
+
+
+
                         }
                     }
 
@@ -290,6 +307,7 @@ ApplicationWindow {
 
     StackView{
         id: stack
+        property real offset: 10
         visible: true
         focus:true
         anchors.fill: parent
@@ -311,6 +329,7 @@ ApplicationWindow {
 
             }
         }
+
         pushExit: Transition {
             PropertyAnimation {
                 property: "opacity"
@@ -336,8 +355,10 @@ ApplicationWindow {
             }
         }
 
+        property var quitable: false
+
         onCurrentItemChanged: {
-            console.log(stack.currentItem.nameWindow)
+
             if(stack.currentItem.nameWindow == 'Home'){
                 stack.currentItem.toolbar = toolbar;
                 toolbar.showActions();
@@ -345,6 +366,7 @@ ApplicationWindow {
                 fab.visible = true;
                 toolbar.visible = true;
                 bottomBar.visible = true;
+                quitable = true;
 
                 stack.currentItem.notaTable = notaDb;
                 stack.currentItem.marcadorTable = marcadorDb;
@@ -361,6 +383,10 @@ ApplicationWindow {
                 stack.currentItem.marcadorTable = marcadorDb;
                 stack.currentItem.markersListView = dlist
                 stack.currentItem.markersModel = listModel
+            }else if(stack.currentItem.nameWindow == 'Identification'){
+                if(quitable){
+                    Qt.quit();
+                }
             }
         }
     }

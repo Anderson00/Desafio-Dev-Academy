@@ -31,7 +31,7 @@ Item {
 
     Component.onCompleted: {
         markersModel.clear();
-        markersModel.append({'nome':''});
+        //markersModel.append({'nome':''});
     }
 
     GridView{
@@ -156,30 +156,49 @@ Item {
                     width: parent.width
                     height: 20
                     anchors.bottomMargin: 2
-                    anchors.leftMargin: 4
+                    anchors.leftMargin: 10
 
 
                     RowLayout{
-                        spacing: 2
+                        spacing: 12
+                        Layout.fillWidth: true
                         Repeater{
                             model: marcadorTable
 
                             delegate:
-                                Rectangle{
-                                visible: nota_id == notaID
-                                width: mc.width + 10
-                                height: mc.height + 5
-                                radius:10
-                                color: "#FFFFAA"
                                 Label{
+                                    visible: nota_id == notaID
                                     id:mc
-                                    anchors.centerIn: parent
                                     text: nome
                                     color:"black"
                                     font.pixelSize: 10
 
+
+                                    Rectangle{
+                                        radius:10
+                                        anchors.centerIn: parent
+                                        width: mc.width + 10
+                                        height: mc.height + 5
+                                        color: "#FFFFAA"
+                                        z: -1
+                                    }
                                 }
-                            }
+
+//                                Rectangle{
+//                                visible: nota_id == notaID
+//                                width: 50
+//                                height: mc.width
+//                                radius:10
+//                                color: "#FFFFAA"
+//                                Label{
+//                                    id:mc
+//                                    anchors.centerIn: parent
+//                                    text: nome
+//                                    color:"black"
+//                                    font.pixelSize: 10
+
+//                                }
+//                            }
                         }
                     }
                 }
