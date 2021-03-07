@@ -42,13 +42,13 @@ Item {
                 markersModel.clear();
                 for(var index in listOfMarkers){
                     let marker = listOfMarkers[index].split(' ');
-                    markersModel.append({'id2':index, 'idd':marker[0],'boxChecked': true, 'nome':marker[1]});
+                    markersModel.append({'id3':index, 'idd':marker[0],'boxChecked': true, 'nome':marker[1]});
                 }
-                markersModel.append({'id2':'', 'nome':''})
+                markersModel.append({'id3':'', 'nome':''})
             }
         }else{
             markersModel.clear();
-            markersModel.append({'id2':'','nome':''});
+            markersModel.append({'id3':'','nome':''});
         }
     }
 

@@ -166,8 +166,7 @@ ApplicationWindow {
 
 
                 delegate: RowLayout{
-                    readonly property int currentIndex: dlist.count - 2;
-                    property var kkkk
+                    property int currentIndex;
 
 
                     width: parent.width
@@ -193,8 +192,9 @@ ApplicationWindow {
                                 box.enabled = true
                                 marcadorField.focus = false;
                                 console.log('>>>>'+dlist.count)
-                                kkkk = dlist.count - 1;
-                                listModel.append({'id3':'33', 'idd':'','boxChecked':false,'nome':''});
+                                currentIndex = dlist.count - 1;
+                                id3 = currentIndex+''
+                                listModel.append({'id3':'','boxChecked':false,'nome':''});
                                 marcadorDelete.enabled = true
                                 dlist.currentIndex = dlist.count - 1
                                 dlist.currentItem.children[1].focus = true
@@ -216,17 +216,17 @@ ApplicationWindow {
                         enabled: nome.trim().length > 0
                         icon.source: 'icons/delete.png'
                         onPressed: {
-                            console.log('>>>>>>>>> '+id3+' '+idd+' '+nome +' '+ kkkk);
+                            for(let i = parseInt(id3) + 1; i < listModel.count; i++){
+                                listModel.get(i).id3 = (parseInt(listModel.get(i).id3) - 1)+'';
+                            }
+
+                            //console.log('>>>>>>>>> '+id3+' '+dlist.count+' '+nome + ' ' + currentIndex);
                             if(idd){
                                 marcadorDb.deleteRow(idd);
                             }
-                            if(id2 !== undefined || id2.trim().length > 0){
-                                listModel.remove(id2);
-                            }else{
-                                listModel.remove(kkkk);
-                            }
 
-
+                            //console.log('>>>>>>>>>>>>>>> '+id3)
+                            listModel.remove(id3);
 
                         }
                     }
