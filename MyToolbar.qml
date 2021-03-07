@@ -42,9 +42,24 @@ ToolBar{
 
     property var showBackButton: false
 
+    //search text
     signal textEdited(string text);
+
+    //button actions
     signal markerButtonAction();
+    signal listGridButtonAction();
     signal deleteItemAction(int idOfItem);
+
+    onWidthChanged: {
+        if(Qt.platform.os == 'android'){
+            return
+        }
+        if(width <= 350 && search.visible){
+            userInfo.visible = false
+        }else{
+            userInfo.visible = true
+        }
+    }
 
     RowLayout{
         anchors.fill: parent
@@ -182,7 +197,7 @@ ToolBar{
             id:iconBt
             icon.width: 20
             icon.source: iconList
-            onClicked: listButtonAction(iconBt)
+            onClicked: root.listGridButtonAction();
         }
         ToolButton{
             icon.width: 20

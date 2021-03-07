@@ -30,7 +30,8 @@ Item {
     anchors.fill: parent
 
     Component.onCompleted: {
-        markersModel.clear();
+        if(markersModel !== undefined)
+            markersModel.clear();
         //markersModel.append({'nome':''});
     }
 
@@ -95,8 +96,9 @@ Item {
 
                 MouseArea{
                     anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
 
-                    onPressed: {
+                    onClicked: {
                         toolbar.date = date;
                         toolbar.idOfItem = id;
                         markersModel.clear();

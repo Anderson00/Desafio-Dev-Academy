@@ -114,8 +114,11 @@ Item {
         notaTable.select();
     }
 
+
     ColorDialog{
         id:dialog
+        modality: Qt.ApplicationModal
+        title:'Escolha uma cor'
 
         onAccepted: {
             anyColorItem.color = dialog.color;

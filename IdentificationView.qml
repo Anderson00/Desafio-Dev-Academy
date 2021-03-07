@@ -154,18 +154,14 @@ Item {
             Layout.fillWidth: true
             text: 'Entrar'
             onPressed: {
-                //root.visible = false;
                 console.log(settings.email)
                 if(formValidation()){
-                    //toolbar.user = userField.text;
-                    //toolbar.email = emailField.text
 
                     userModel.setNome(1, userField.text);
                     userModel.setEmail(1, emailField.text);
 
-                    stack.push('HomeView.qml', {'user': userField.text, 'email': emailField.text})
+                    stack.push('HomeView.qml')
                 }
-                //identificationSuccess(userField.text, emailField.text);
             }
         }
     }

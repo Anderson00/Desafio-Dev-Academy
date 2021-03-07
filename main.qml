@@ -28,23 +28,24 @@ ApplicationWindow {
         visible: false
         menu: menu
         stack: stack
-        listButtonAction: (iconBt)=>{
-                              if(stack.currentItem.isGrid !== undefined){
-                                  if(stack.currentItem.isGrid){
-                                      toolbar.iconList = 'icons/view-grid-outline.png'
-                                      stack.currentItem.isGrid = false
-                                  }else{
-                                      toolbar.iconList = 'icons/format-list-bulleted-square.png'
-                                      stack.currentItem.isGrid = true
-                                  }
-                              }
-                          }
-
 
         onTextEdited: {
             if(stack.currentItem.isGrid !== undefined){
                 stack.currentItem.filter = text;
             }
+        }
+
+        onListGridButtonAction: {
+            if(stack.currentItem.nameWindow == 'Home'){
+                if(stack.currentItem.isGrid){
+                    toolbar.iconList = 'icons/view-grid-outline.png'
+                    stack.currentItem.isGrid = false
+                }else{
+                    toolbar.iconList = 'icons/format-list-bulleted-square.png'
+                    stack.currentItem.isGrid = true
+                }
+            }
+
         }
 
         onMarkerButtonAction: {
@@ -117,7 +118,8 @@ ApplicationWindow {
         modal:true
         anchors.centerIn: parent
         width: parent.width * 0.6
-        height: parent.height * 0.6
+        height: Qt.platform.os == 'android' ? parent.height*0.4 : parent.height*0.6
+        //height: parent.height * 0.6
         title: 'Adicionar marcador'
 
         standardButtons: Dialog.Ok
