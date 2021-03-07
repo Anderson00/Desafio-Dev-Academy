@@ -90,8 +90,6 @@ ApplicationWindow {
         id:excluirDialog
         modal:true
         anchors.centerIn: parent
-        width: parent.width * 0.6
-        height: parent.height * 0.6
         title: 'Excluir?'
 
         standardButtons: Dialog.No | Dialog.Yes
@@ -99,7 +97,7 @@ ApplicationWindow {
         Label{
             anchors.centerIn: parent
             text: 'Tem certeza que deseja excluir a nota?'
-            wrapMode: "WordWrap"
+            wrapMode: "Wrap"
         }
 
         onRejected: {
@@ -119,7 +117,7 @@ ApplicationWindow {
         modal:true
         anchors.centerIn: parent
         width: parent.width * 0.6
-        height: parent.height * 0.8
+        height: parent.height * 0.6
         title: 'Adicionar marcador'
 
         standardButtons: Dialog.Ok
